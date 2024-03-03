@@ -1,0 +1,21 @@
+217. Contains Duplicate - https://leetcode.com/problems/contains-duplicate/description/
+
+class Solution {
+public:
+    // Define a function that checks for duplicate elements in a vector
+    bool containsDuplicate(vector<int>& nums) {
+        // Create an unordered map to store the count of each element
+        unordered_map<int, int> seen;
+        // Iterate over each element in the input vector
+        for (int num : nums) {
+            // Check if the current element has already been encountered
+            if (seen[num] >= 1)
+                // If so, return true indicating a duplicate is found
+                return true;
+            // Increment the count for the current element in the map
+            seen[num]++;
+        }
+        // After checking all elements, return false indicating no duplicates were found
+        return false;
+    }
+};
