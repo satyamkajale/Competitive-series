@@ -1,0 +1,32 @@
+242. Valid Anagram - https://leetcode.com/problems/valid-anagram/description/
+
+class Solution {
+public:
+    // Define a function to check if two strings are anagrams
+    bool isAnagram(string s, string t) {
+        // Declare an unordered_map to count the frequency of each character
+        unordered_map<char, int> count;
+
+        // Iterate over the first string 's'
+        for (auto x : s) {
+            // Increment the count for the character 'x' found in string 's'
+            count[x]++;
+        }
+
+        // Iterate over the second string 't'
+        for (auto x: t) {
+            // Decrement the count for the character 'x' found in string 't'
+            count[x]--;
+        }
+
+        // Iterate over the map to check the final counts of each character
+        for (auto x: count) {
+            // If any character's count is not zero, then 's' and 't' are not anagrams
+            if (x.second != 0) {
+                return false;
+            }
+        }
+        // If all counts are zero, then 's' and 't' are anagrams
+        return true;
+    }
+};
