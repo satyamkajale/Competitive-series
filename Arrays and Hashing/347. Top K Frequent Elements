@@ -1,0 +1,39 @@
+347. Top K Frequent Elements - https://leetcode.com/problems/top-k-frequent-elements/description/
+
+class Solution {
+public:
+    // Function to find the k most frequent elements in a vector of integers
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        // Get the number of elements in nums
+        int n = nums.size();
+
+        // Create an unordered map to count the frequency of each element in nums
+        unordered_map<int, int> frequency;
+        // Iterate over the nums vector and increment the frequency count for each element
+        for (int i = 0; i < n; i++) {
+            frequency[nums[i]]++;
+        }
+
+        // Create a vector to store elements and their frequency counts as pairs
+        vector<pair<int, int>> store;
+        // Populate the store vector with elements from the frequency map
+        for (auto& pair : frequency) {
+            store.push_back(pair);
+        }
+
+        // Sort the store vector based on the frequency of elements in descending order
+        sort(store.begin(), store.end(), [](const auto& a, const auto& b) {
+            return a.second > b.second;
+        });
+
+        // Create a vector to store the result
+        vector<int> res;
+        // Add the top k elements to the result vector
+        for (int i = 0; i < k && i < store.size(); i++) {
+            res.push_back(store[i].first);
+        }
+
+        // Return the result vector containing the k most frequent elements
+        return res;
+    }
+};
