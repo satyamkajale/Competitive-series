@@ -1,0 +1,81 @@
+49. Group Anagrams - https://leetcode.com/problems/group-anagrams/
+
+class Solution {
+public:
+    string getSignature(const string& s) {
+        vector<int> count(26, 0);
+        for (char c: s) {
+            count[c - 'a']++;
+        }
+
+        stringstream ss;
+        for (int i = 0; i < 26; i++) {
+            if (count[i] != 0) {
+                ss << (char)('a' + i) << count[i];
+            }
+        }
+        return ss.str();
+    }
+
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> result;
+        unordered_map<string, vector<string>> groups;
+
+        for (const string& s: strs) {
+            groups[getSignature(s)].push_back(s);
+        }
+
+        for (const auto& entry : groups) {
+            result.push_back(entry.second);
+        }
+
+        return result;
+    }
+};
+
+Example Input
+Suppose our input strs is ["eat", "tea", "tan", "ate", "nat", "bat"].
+
+Function: getSignature
+vector<int> count(26, 0);: Initializes a vector of size 26 (for each letter of the English alphabet) with all elements set to 0. This will count the frequency of each letter in a string.
+
+for (char c : s) { count[c - 'a']++; }: Iterates over each character in the string s, incrementing the count of the corresponding letter in the count vector.
+
+stringstream ss;: Creates a stringstream to build the signature string.
+
+for (int i = 0; i < 26; i++) {: Iterates through each letter's count.
+
+if (count[i] != 0) {: Checks if the current letter appears in the string.
+
+ss << (char)('a' + i) << count[i];: Appends the letter and its count to the stringstream if the count is not zero.
+
+return ss.str();: Returns the signature string built from the letter counts.
+
+Example Signature
+For s = "eat", the signature would be "a1e1t1" because 'a', 'e', and 't' each appear once.
+
+Function: groupAnagrams
+vector<vector<string>> result;: Initializes the result vector, which will store groups of anagrams.
+
+unordered_map<string, vector<string>> groups;: Creates a hash map to group strings by their signature.
+
+for (const string& s : strs) {: Iterates over each string in the input vector.
+
+groups[getSignature(s)].push_back(s);: Calculates the signature of s and adds s to the corresponding group in groups.
+Grouping Process
+Using our input, the groups after processing would be:
+
+"a1e1t1" -> ["eat", "tea", "ate"]
+
+"a1n1t1" -> ["tan", "nat"]
+
+"a1b1t1" -> ["bat"]
+
+for (const auto& entry : groups) {: Iterates over each entry in the groups map.
+
+result.push_back(entry.second);: Adds the group of anagrams to the result. entry.second is the vector of anagrams sharing the same signature.
+Final Result
+The result vector will be:
+
+[["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]
+This code effectively groups the input strings into anagrams by using a signature method that counts the occurrences of each letter. This signature serves as a unique identifier for anagrams, allowing for efficient grouping.
