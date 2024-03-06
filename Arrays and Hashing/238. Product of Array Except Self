@@ -1,1 +1,40 @@
-238. Product of Array Except Self
+238. Product of Array Except Self - https://leetcode.com/problems/product-of-array-except-self/submissions/1195535850/
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        // Determine the size of the input vector
+        int n = nums.size();
+
+        // Initialize the answer vector with the same size as the input vector
+        vector<int> ans(n);
+
+        // Create a vector to store the cumulative product of elements from the left
+        vector<int> left_Product(n);
+
+        // Create a vector to store the cumulative product of elements from the right
+        vector<int> right_Product(n);
+
+        // The first element of left_Product is 1 because there are no elements to the left of the first element
+        left_Product[0] = 1;
+        for(int i=1; i<n; i++){
+            // Calculate the left product for each element as the product of its left neighbor in the left_Product vector and the corresponding element in the input vector
+            left_Product[i] = left_Product[i-1] * nums[i-1];
+        }
+
+        // The last element of right_Product is 1 because there are no elements to the right of the last element
+        right_Product[n-1] = 1;
+        for(int i = n-2; i>=0; i--){
+            // Calculate the right product for each element in reverse order as the product of its right neighbor in the right_Product vector and the corresponding element in the input vector
+            right_Product[i] = right_Product[i+1] * nums[i+1];
+        }
+
+        for(int i=0; i<n; i++){
+            // The answer for each element is the product of its left product and right product
+            ans[i] = left_Product[i] * right_Product[i];
+        }
+        // Return the populated answer vector
+        return ans;
+    }
+};
+
