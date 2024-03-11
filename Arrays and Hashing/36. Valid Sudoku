@@ -1,0 +1,40 @@
+36. Valid Sudoku - https://leetcode.com/problems/valid-sudoku/description/
+
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        const int num = 9; // Size of the Sudoku board (9x9)
+
+        // Arrays to keep track of which numbers have been seen
+        bool row[num][num] = {false}; // Tracks seen numbers in each row
+        bool col[num][num] = {false}; // Tracks seen numbers in each column
+        bool subGrid[num][num] = {false}; // Tracks seen numbers in each 3x3 subgrid
+
+        // Loop through each cell of the board
+        for(int r = 0; r < num; ++r) {
+            for(int c = 0; c < num; ++c){
+                
+                // Skip empty cells
+                if(board[r][c] == '.') 
+                    continue;
+
+                // Convert char to index (0-8)
+                int idx = board[r][c] - '0' - 1;
+
+                // Calculate subgrid number
+                int gridNum = (r/3) * 3 + (c/3);
+
+                // Check if the number has already been seen in the current row, column, or subgrid
+                if(row[r][idx] || col[c][idx] || subGrid[gridNum][idx]){
+                    return false; // If so, the Sudoku board is not valid
+                }
+
+                // Mark the number as seen in the current row, column, and subgrid
+                row[r][idx] = true;
+                col[c][idx] = true;
+                subGrid[gridNum][idx] = true;
+            }
+        }
+        return true; // If no repetitions are found, the board is valid
+    }
+};
