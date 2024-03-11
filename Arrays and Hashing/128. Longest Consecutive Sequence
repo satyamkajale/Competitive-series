@@ -1,0 +1,56 @@
+128. Longest Consecutive Sequence - https://leetcode.com/problems/longest-consecutive-sequence/description/
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        // Create an unordered_map to store each unique number from the input array.
+        // The key is the number itself, and the value is a boolean indicating
+        // whether this number could be the start of a consecutive sequence.
+        unordered_map<int, bool> map;
+        
+        // Populate the map with all numbers from the array, marking each as true initially.
+        // True here means that this number is potentially the start of a consecutive sequence.
+        for(int i = 0; i < nums.size(); i++){
+            map[nums[i]] = true;
+        }
+        
+        // Iterate over the array again to update our map. For each number, check if the previous
+        // number (nums[i] - 1) exists in the map. If it does, set the current number's value in the map to false,
+        // as it cannot be the start of a sequence (since there's a number before it).
+        for(int i = 0; i < nums.size(); i++){
+            if(map.count(nums[i]-1) > 0){
+                map[nums[i]] = false;
+            }
+        }
+        
+        // Initialize a variable to keep track of the maximum sequence length found.
+        int maxlen = 0;
+        
+        // Iterate over the array to find the longest consecutive sequence.
+        for(int i = 0; i < nums.size(); i++){
+            // Only consider numbers that are marked as true in the map,
+            // meaning they could be the start of a sequence.
+            if(map[nums[i]] == true){
+                // Initialize a counter for the current sequence length.
+                int j = 0; // j is used to check consecutive numbers starting from nums[i].
+                int count = 0; // count tracks the length of the current sequence.
+                
+                // Continue checking for consecutive numbers (nums[i] + j) and increment the count
+                // as long as these consecutive numbers are found in the map.
+                while(map.count(nums[i] + j) > 0){
+                    j++;
+                    count++;
+                }
+                
+                // If the current sequence length is greater than the maximum length found so far,
+                // update maxlen with the current sequence length.
+                if(count > maxlen){
+                    maxlen = count;
+                }
+            }
+        }
+        
+        // After checking all numbers, return the length of the longest consecutive sequence found.
+        return maxlen;
+    }
+};
